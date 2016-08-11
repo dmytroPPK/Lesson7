@@ -20,13 +20,15 @@ namespace Lesson7.Employees
         /// <summary>
         /// преміальні години  за день
         /// </summary>
-        public virtual double PremiumHoursDay { get { return _premiumHoursDay * 2; } set { _premiumHoursDay = value; } }
+        public virtual double PremiumHoursDay { get { return (_isTrainee) ? _premiumHoursDay * 1.5 :  _premiumHoursDay * 2; } set { _premiumHoursDay = value; } }
         protected double _premiumHoursDay;
         /// <summary>
         /// преміальні години  за ніч
         /// </summary>
-        public virtual double PremiumHoursNight { get { return _premiumHoursNight * 3; } set { _premiumHoursNight = value; } }
+        public virtual double PremiumHoursNight { get { return (_isTrainee) ? _premiumHoursNight * 1.5 :  _premiumHoursNight * 3; } set { _premiumHoursNight = value; } }
         protected double _premiumHoursNight;
+
+        public Watchman(bool trainee = false) : base(trainee) { }
 
         public override double CalculateBonusPaid()
         {
@@ -41,6 +43,21 @@ namespace Lesson7.Employees
         public override double CalculatePremiumPaid()
         {
             return (this.PremiumHoursDay + this.PremiumHoursNight) * this.PaidOfHour;
+        }
+        public override string ToString()
+        {
+            return string.Format(Helper.infoWatchMan,
+                Name,
+                Age,
+                EperienceYears,
+                CalculateBonusPaid(),
+                CalculatePremiumPaid(),
+                PaidOfMonth(),
+                HoursOfDay,
+                HoursOfNight,
+                PremiumHoursDay,
+                PremiumHoursNight,PaidOfHour,
+                (this.IsTrainee)?"Так":"Ні");
         }
     }
 }

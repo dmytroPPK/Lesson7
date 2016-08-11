@@ -46,11 +46,6 @@
     <Compile Include="Employees\Doctor.cs" />
     <Compile Include="Employees\Employee.cs" />
     <Compile Include="Employees\Psychologist.cs" />
-    <Compile Include="Employees\Trainees\DoctorTrainee.cs" />
-    <Compile Include="Employees\Trainees\ITrainee.cs" />
-    <Compile Include="Employees\Trainees\PsychologistTrainee.cs" />
-    <Compile Include="Employees\Trainees\WatchmanTrainee.cs" />
-    <Compile Include="Employees\Trainees\WorkerTrainee.cs" />
     <Compile Include="Employees\Watchman.cs" />
     <Compile Include="Employees\Worker.cs" />
     <Compile Include="Program.cs" />

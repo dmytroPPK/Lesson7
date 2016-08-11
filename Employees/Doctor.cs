@@ -13,7 +13,7 @@ namespace Lesson7.Employees
         /// <summary>
         /// преміальні години
         /// </summary>
-        public virtual double PremiumHours { get { return 0; } set { _premiumHours = value; } }
+        public virtual double PremiumHours { get { return (_isTrainee)?_premiumHours*1.5:0; } set { _premiumHours = value; } }
         protected double _premiumHours;
         /// <summary>
         /// кількість вилікуванних
@@ -28,6 +28,7 @@ namespace Lesson7.Employees
         /// </summary>
         public double HoursOfMonth { get; set; }
 
+        public Doctor(bool trainee = false) : base(trainee) { }
         public override double CalculateBonusPaid()
         {
             return BonusPaid * CountOfTreated;
@@ -41,6 +42,22 @@ namespace Lesson7.Employees
         public override double CalculatePremiumPaid()
         {
             return PremiumHours * this.PaidOfHour;
+        }
+        public override string ToString()
+        {
+            return string.Format(Helper.infoDoctor,
+                Name, 
+                Age, 
+                EperienceYears,
+                CalculateBonusPaid(),
+                CalculatePremiumPaid(),
+                PaidOfMonth(),
+                PremiumHours, 
+                CountOfTreated,
+                HoursOfMonth,
+                PaidOfHour, 
+                (this.IsTrainee)?"Так":"Ні",
+                BonusPaid);
         }
     }
 }

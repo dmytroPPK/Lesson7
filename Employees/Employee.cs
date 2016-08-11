@@ -24,5 +24,13 @@ namespace Lesson7.Employees
         public abstract double CalculateBonusPaid();
         public abstract double PaidOfMonth();
         public abstract double CalculatePremiumPaid();
+
+        protected bool _isTrainee;
+        public bool IsTrainee { get { return _isTrainee; } }
+
+        public Employee(bool isTrainee = false)
+        {
+            this._isTrainee = isTrainee;
+        }
     }
 }

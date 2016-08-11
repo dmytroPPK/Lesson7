@@ -15,12 +15,14 @@ namespace Lesson7.Employees
         /// <summary>
         /// преміальні години
         /// </summary>
-        public virtual double PremiumHours { get { return _premiumHours * 4; } set { _premiumHours = value; } }
+        public virtual double PremiumHours { get { return (_isTrainee) ? _premiumHours * 1.5 :  _premiumHours * 4; } set { _premiumHours = value; } }
         protected double _premiumHours;
         /// <summary>
         ///  робочих годин на місяць
         /// </summary>
         public double HoursOfMonth { get; set; }
+
+        public Worker(bool trainee = false) : base(trainee) { }
 
         public override double CalculateBonusPaid()
         {
@@ -36,6 +38,22 @@ namespace Lesson7.Employees
         public override double CalculatePremiumPaid()
         {
             return this.PremiumHours * this.PaidOfHour;
+        }
+        public override string ToString()
+        {
+            
+            return string.Format(Helper.infoWorker,  
+                this.Name, 
+                this.Age, 
+                this.EperienceYears,
+                this.CalculateBonusPaid(),
+                this.CalculatePremiumPaid(),
+                this.PaidOfMonth(),
+                this.PremiumHours,
+                this.OverOfHours,
+                this.HoursOfMonth,
+                this.PaidOfHour, 
+                (this.IsTrainee)?"Так":"Ні");
         }
     }
 }

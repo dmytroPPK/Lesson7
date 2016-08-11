@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lesson7.Employees;
-using Lesson7.Employees.Trainees;
+
 
 namespace Lesson7
 {
@@ -122,8 +122,7 @@ namespace Lesson7
         private void ShowEmployees()
         {
             var query = from emp in DB.Employees
-                        where emp is Employee 
-                        where !(emp is ITrainee)
+                        where emp.IsTrainee == false
                         orderby emp.UId
                         select emp;
             string formatString = Helper.StrFormat1;
@@ -137,7 +136,7 @@ namespace Lesson7
         private void ShowTrainees()
         {
             var query = from emp in DB.Employees
-                        where emp is ITrainee
+                        where emp.IsTrainee == true
                         orderby emp.UId
                         select emp;
             string formatString = Helper.StrFormat1;
@@ -148,77 +147,29 @@ namespace Lesson7
             this.Promt();
         }
 
-        private void CheckPersonType(Employee emp)  // I do not like realization of this method
+        private void CheckPersonType(Employee emp)  
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            if (emp is Worker || emp is WorkerTrainee)
+            if (emp is Worker)
             {
-
-                string infoWorker = Helper.infoWorker;
-
-                if (emp is ITrainee)
-                {
-                    WorkerTrainee w = emp as WorkerTrainee;
-                    Console.WriteLine(infoWorker, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.PremiumHours, w.OverOfHours, w.HoursOfMonth, w.PaidOfHour, "Да");
-                }
-                else
-                {
-                    Worker w = emp as Worker;
-                    Console.WriteLine(infoWorker, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.PremiumHours, w.OverOfHours, w.HoursOfMonth, w.PaidOfHour, "Нет");
-                }
-
+                Console.WriteLine("\t<<- "+emp.GetType().Name+" ->>\n");
+                Console.WriteLine((emp as Worker).ToString());
             }
-            else if (emp is Doctor || emp is DoctorTrainee)
+            else if (emp is Doctor)
             {
-                string infoDoctor = Helper.infoDoctor;
-                if (emp is ITrainee)
-                {
-                    DoctorTrainee w = emp as DoctorTrainee;
-                    Console.WriteLine(infoDoctor, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                       w.PaidOfMonth(), w.PremiumHours, w.CountOfTreated, w.HoursOfMonth, w.PaidOfHour, "Да", w.BonusPaid);
-                }
-                else
-                {
-                    Doctor w = emp as Doctor;
-                    Console.WriteLine(infoDoctor, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.PremiumHours, w.CountOfTreated, w.HoursOfMonth, w.PaidOfHour, "Нет", w.BonusPaid);
-                }
+                Console.WriteLine("\t<<- " + emp.GetType().Name + " ->>\n");
+                Console.WriteLine((emp as Doctor).ToString());
             }
-            else if (emp is Watchman || emp is WatchmanTrainee)
+            else if (emp is Watchman )
             {
-                string infoWatchMan = Helper.infoWatchMan;
-                if (emp is ITrainee)
-                {
-                    WatchmanTrainee w = emp as WatchmanTrainee;
-                    Console.WriteLine(infoWatchMan, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.HoursOfDay, w.HoursOfNight, w.PremiumHoursDay, w.PremiumHoursNight, w.PaidOfHour, "Да");
-                }
-                else
-                {
-                    Watchman w = emp as Watchman;
-                    Console.WriteLine(infoWatchMan, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.HoursOfDay, w.HoursOfNight, w.PremiumHoursDay, w.PremiumHoursNight, w.PaidOfHour, "Нет");
-                }
+                Console.WriteLine("\t<<- " + emp.GetType().Name + " ->>\n");
+                Console.WriteLine((emp as Watchman).ToString());
             }
-            else if (emp is Psychologist || emp is PsychologistTrainee)
+            else if (emp is Psychologist )
             {
-                string infoPsychologist = Helper.infoPsychologist;
-
-                if (emp is ITrainee)
-                {
-                    PsychologistTrainee w = emp as PsychologistTrainee;
-                    Console.WriteLine(infoPsychologist, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                        w.PaidOfMonth(), w.CountOverPatient, w.FactorOfBonus, w.PremiumHours, w.HoursOfMonth, w.PaidOfHour, "Да");
-                }
-                else
-                {
-                    Psychologist w = emp as Psychologist;
-                    Console.WriteLine(infoPsychologist, w.Name, w.Age, w.EperienceYears, w.CalculateBonusPaid(), w.CalculatePremiumPaid(),
-                       w.PaidOfMonth(), w.CountOverPatient, w.FactorOfBonus, w.PremiumHours, w.HoursOfMonth, w.PaidOfHour, "Нет");
-                }
+                Console.WriteLine("\t<<- " + emp.GetType().Name + " ->>\n");
+                Console.WriteLine((emp as Psychologist).ToString());
             }
             else
             {
@@ -255,7 +206,7 @@ namespace Lesson7
                     PremiumHoursNight =4,
                     PaidOfHour = 15
                 },
-                new WatchmanTrainee()
+                new Watchman(trainee:true)
                 {
                     UId = 2,
                     Name ="Boris",
@@ -266,6 +217,7 @@ namespace Lesson7
                     PremiumHoursDay = 2,
                     PremiumHoursNight =8,
                     PaidOfHour = 9
+                    
                 },
                 new Worker()
                 {
@@ -278,7 +230,7 @@ namespace Lesson7
                     OverOfHours = 10,
                     PremiumHours = 5
                 },
-                new WorkerTrainee()
+                new Worker(trainee:true)
                 {
                     UId = 6,
                     Name ="Tommy",
@@ -301,7 +253,7 @@ namespace Lesson7
                     BonusPaid = 120,
                     CountOfTreated =14
                 },
-                new DoctorTrainee()
+                new Doctor(trainee:true)
                 {
                     UId = 10,
                     Name ="Barbara",
@@ -324,7 +276,7 @@ namespace Lesson7
                     PremiumHours = 4,
                     CountOverPatient=16
                 },
-                new PsychologistTrainee()
+                new Psychologist(trainee:true)
                 {
                     UId = 15,
                     Name ="Veronika",
@@ -347,7 +299,7 @@ namespace Lesson7
                     PremiumHoursNight =10,
                     PaidOfHour = 15
                 },
-                new WorkerTrainee()
+                new Worker(trainee:true)
                 {
                     UId = 7,
                     Name ="Nelly",
@@ -358,7 +310,7 @@ namespace Lesson7
                     OverOfHours = 1,
                     PremiumHours = 3
                 },
-                new WatchmanTrainee()
+                new Watchman(trainee:true)
                 {
                     UId = 3,
                     Name ="Petrosyan",
